@@ -1,0 +1,17 @@
+.character {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 285px;
+    padding: 15px;
+    
+    background-color: #000000;
+    border: 3px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.character__image {
+    width: 250px;
+    border-radius: 10px;
+}
