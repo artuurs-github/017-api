@@ -112,3 +112,47 @@
         transform: scale(0.95);
     }
 }
+
+.load-more {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.load-more__button {
+    font-size: 36px;
+    color: #40b6cb;
+    
+    padding: 5px 25px;
+    background: #FFFFFF;
+    border: 3px solid #40b6cb;
+    border-radius: 15px;
+
+    transition: all 0.25s;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.75;
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.load-more__page {
+    font-size: 36px;
+    color: #40b6cb;
+    
+    padding: 5px 25px;
+    background: #FFFFFF;
+    border: 3px solid #40b6cb;;
+    border-radius: 15px;
+}
+
+.off {
+    color: lightgray;
+    border: 3px solid lightgray;
+    pointer-events: none;
+}

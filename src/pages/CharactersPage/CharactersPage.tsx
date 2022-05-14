@@ -1,56 +1,70 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 import { Character } from '../../models/CharacterModel';
+// import styles from './CharactersPage.module.scss';
 import './CharactersPage.scss';
 
 const CharactersPage = () => {
+  const buttonPreviousRef = useRef <HTMLButtonElement | null>(null);
+  const buttonNextRef = useRef <HTMLButtonElement | null>(null);
+
   const [visibleCharacters, setVisibleCharacters] = useState<Character[]>();
-  const [errorMessage, setErrorMessage] = useState<string>();
-  const [inputValue, setInputValue] = useState('');
-  const [activeFilter, setActiveFilter] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<string>();
+  const [nameFilter, setNameFilter] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams('');
+
   const navigate = useNavigate();
 
+  const handlePagePrevious = () => {
+    if (currentPage === 1) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePageNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   const getCharacters = async () => {
+    const nameParams = nameFilter === '' ? '' : `&name=${nameFilter}`;
     try {
-      const tempResponse1 = await axios.get(`https://rickandmortyapi.com/api/character?page=1&${activeFilter}`);
-      const tempResponse2 = await axios.get(`https://rickandmortyapi.com/api/character?page=2&${activeFilter}`);
-      const tempResponse3 = await axios.get(`https://rickandmortyapi.com/api/character?page=3&${activeFilter}`);
-      const tempResponse4 = await axios.get(`https://rickandmortyapi.com/api/character?page=4&${activeFilter}`);
-      const tempResponse5 = await axios.get(`https://rickandmortyapi.com/api/character?page=5&${activeFilter}`);
-      const response = [
-        ...tempResponse1.data.results,
-        ...tempResponse2.data.results,
-        ...tempResponse3.data.results,
-        ...tempResponse4.data.results,
-        ...tempResponse5.data.results,
-      ];
-      if (inputValue === '') {
-        setVisibleCharacters(response);
-      } else {
-        setVisibleCharacters(response.filter((character: any) => character.name
-          .toLowerCase()
-          .includes(inputValue.toLowerCase())));
-      }
-      console.log(response);
+      const response = await axios
+        .get(`https://rickandmortyapi.com/api/character?page=${currentPage}&${searchParams}${nameParams}`);
+      setVisibleCharacters(response.data.results);
+      setTotalPages(response.data.info.pages);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 404) {
-          setErrorMessage('Nothing to show!');
-        } else {
-          setErrorMessage(error.message);
-        }
-      } else {
-        setErrorMessage('Not AXIOS error!');
-      }
+      console.log('ERROR!');
     } finally {
-      console.log('Request finalized!');
+      console.log('REQUEST FINALIZED!');
     }
   };
 
   useEffect(() => {
     getCharacters();
-  }, [activeFilter, inputValue]);
+    console.log(currentPage, totalPages);
+  }, [searchParams, nameFilter, currentPage]);
+
+  useEffect(() => {
+    if (buttonPreviousRef.current && buttonNextRef.current) {
+      const buttonPrevious = buttonPreviousRef.current;
+      const buttonNext = buttonNextRef.current;
+      if (currentPage === 1) {
+        buttonPrevious.classList.add('off');
+      } else {
+        buttonPrevious.classList.remove('off');
+      }
+
+      if (currentPage === Number(totalPages)) {
+        buttonNext.classList.add('off');
+      } else {
+        buttonNext.classList.remove('off');
+      }
+    }
+  }, [currentPage]);
 
   return (
     <div className="characters">
@@ -59,21 +73,21 @@ const CharactersPage = () => {
           className="characters__input"
           type="text"
           placeholder="Search character by name..."
-          onChange={(event) => { setInputValue(event.target.value); }}
+          onChange={(event) => {
+            setNameFilter(event.target.value);
+            setCurrentPage(1);
+          }}
+          // onChange={(event) => { setSearchParams({ name: event.target.value }); }}
         />
       </div>
 
       <div className="characters__options">
-        <div className="options__count">
-          {visibleCharacters?.length}
-          {' '}
-          characters found
-        </div>
         <div className="options__buttons">
           <button
             className="character-card__button"
             onClick={() => {
-              setActiveFilter('');
+              setSearchParams('');
+              setCurrentPage(1);
             }}
           >
             All
@@ -81,7 +95,8 @@ const CharactersPage = () => {
           <button
             className="character-card__button"
             onClick={() => {
-              setActiveFilter('status=alive');
+              setSearchParams({ status: 'alive' });
+              setCurrentPage(1);
             }}
           >
             Alive
@@ -89,7 +104,8 @@ const CharactersPage = () => {
           <button
             className="character-card__button"
             onClick={() => {
-              setActiveFilter('status=dead');
+              setSearchParams({ status: 'dead' });
+              setCurrentPage(1);
             }}
           >
             Dead
@@ -97,7 +113,8 @@ const CharactersPage = () => {
           <button
             className="character-card__button"
             onClick={() => {
-              setActiveFilter('status=unknown');
+              setSearchParams({ status: 'unknown' });
+              setCurrentPage(1);
             }}
           >
             Unknown
@@ -142,6 +159,23 @@ const CharactersPage = () => {
             ))}
           </div>
         )}
+      <div className="load-more">
+        <button
+          className="load-more__button"
+          onClick={() => handlePagePrevious()}
+          ref={buttonPreviousRef}
+        >
+          {'<'}
+        </button>
+        <div className="load-more__page">{currentPage}</div>
+        <button
+          className="load-more__button"
+          onClick={() => handlePageNext()}
+          ref={buttonNextRef}
+        >
+          {'>'}
+        </button>
+      </div>
     </div>
   );
 };

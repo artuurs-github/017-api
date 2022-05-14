@@ -1,53 +1,67 @@
 /* eslint-disable camelcase */
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { Episode } from '../../models/EpisodeModel'; // ! ŠO!
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useSearchParams } from 'react-router-dom';
+import { Episode } from '../../models/EpisodeModel';
 import './EpisodesPage.scss';
 
 const EpisodesPage = () => {
+  const buttonPreviousRef = useRef <HTMLButtonElement | null>(null);
+  const buttonNextRef = useRef <HTMLButtonElement | null>(null);
+
   const [visibleEpisodes, setVisibleEpisodes] = useState<Episode[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [errorMessage, setErrorMessage] = useState<string>();
-  const [inputValue, setInputValue] = useState<string>('');
-  const navigate = useNavigate();
+  const [totalPages, setTotalPages] = useState<string>('');
+  const [searchParams, setSearchParams] = useSearchParams('');
 
-  let response: any = [];
+  const handlePagePrevious = () => {
+    if (currentPage === 1) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handlePageNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   const getEpisodes = async () => {
     try {
-      const tempResponse = await axios.get(`https://rickandmortyapi.com/api/episode?page=${currentPage}`);
-      response = [...response, ...tempResponse.data.results];
-      if (tempResponse.data.info.next) {
-        setCurrentPage(currentPage + 1);
-      } else {
-        console.log('All requests finalized');
-      }
-      if (inputValue === '') {
-        setVisibleEpisodes(response);
-      } else {
-        setVisibleEpisodes(response.filter((episode: any) => episode.name
-          .toLowerCase()
-          .includes(inputValue.toLowerCase())));
-      }
+      const response = await axios
+        .get(`https://rickandmortyapi.com/api/episode?page=${currentPage}&${searchParams}`);
+      setVisibleEpisodes(response.data.results);
+      setTotalPages(response.data.info.pages);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 404) {
-          setErrorMessage('Nothing to show!');
-        } else {
-          setErrorMessage(error.message);
-        }
-      } else {
-        setErrorMessage('Not AXIOS error!');
-      }
+      console.log('ERROR!');
     } finally {
-      console.log('Request finalized!');
+      console.log('REQUEST FINALIZED!');
     }
   };
 
   useEffect(() => {
     getEpisodes();
-  }, [inputValue, currentPage]);
+  }, [searchParams, currentPage]);
+
+  useEffect(() => {
+    if (buttonPreviousRef.current) {
+      const buttonPrevious = buttonPreviousRef.current;
+      if (currentPage === 1) {
+        buttonPrevious.classList.add('off');
+      } else {
+        buttonPrevious.classList.remove('off');
+      }
+    }
+
+    if (buttonNextRef.current) {
+      const buttonNext = buttonNextRef.current;
+      if (currentPage === Number(totalPages)) {
+        buttonNext.classList.add('off');
+      } else {
+        buttonNext.classList.remove('off');
+      }
+    }
+  }, [currentPage]);
 
   return (
     <div className="episodes">
@@ -56,16 +70,11 @@ const EpisodesPage = () => {
           className="episodes__input"
           type="text"
           placeholder="Search episode by name..."
-          onChange={(event) => { setInputValue(event.target.value); }}
+          onChange={(event) => {
+            setSearchParams({ name: event.target.value });
+            setCurrentPage(1);
+          }}
         />
-      </div>
-
-      <div className="episodes__options">
-        <div className="options__count">
-          {visibleEpisodes?.length}
-          {' '}
-          episodes found
-        </div>
       </div>
 
       {visibleEpisodes?.length === 0
@@ -94,6 +103,23 @@ const EpisodesPage = () => {
             ))}
           </div>
         )}
+      <div className="load-more">
+        <button
+          className="load-more__button"
+          onClick={() => handlePagePrevious()}
+          ref={buttonPreviousRef}
+        >
+          {'<'}
+        </button>
+        <div className="load-more__page">{currentPage}</div>
+        <button
+          className="load-more__button"
+          onClick={() => handlePageNext()}
+          ref={buttonNextRef}
+        >
+          {'>'}
+        </button>
+      </div>
     </div>
   );
 };
