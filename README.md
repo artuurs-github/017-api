@@ -6,7 +6,13 @@ https://artuurs-github.github.io/react-gh-pages/
 ```
 
 ## Project description
-This is a React.js project — a single-page application, Rick & Morty API (https://rickandmortyapi.com/) based database. Unfortu
+This is a React.js project — a single-page application, Rick & Morty API (https://rickandmortyapi.com/) based database.
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 ## Additional notes
 
