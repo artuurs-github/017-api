@@ -1,8 +1,20 @@
-# Getting Started with Create React App
+# react-gh-pages
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project link
+```
+https://artuurs-github.github.io/react-gh-pages/
+```
 
-## Available Scripts
+## Project description
+This is a React.js project — a single-page application, Rick & Morty API (https://rickandmortyapi.com/) based database.
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+## Additional notes
 
 In the project directory, you can run:
 
