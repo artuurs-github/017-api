@@ -20,7 +20,8 @@ const App = () => (
         <Route path="/characters/:id" element={<CharacterPage />} />
         <Route path="/episodes" element={<EpisodesPage />} />
         <Route path="/locations" element={<LocationsPage />} />
-        <Route path="/404" element={<ErrorPage />} />
+        {/* <Route path="/404" element={<ErrorPage />} /> */}
+        <Route path="/404" element={<Navigate to="/" />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
