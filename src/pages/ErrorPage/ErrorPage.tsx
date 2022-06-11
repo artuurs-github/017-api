@@ -1,8 +1,11 @@
 import './ErrorPage.scss';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ErrorImg from './ErrorImg.png';
 
 const ErrorPage = () => {
+  const navigate = useNavigate();
+
   const divElementRef = useRef<HTMLDivElement | null>(null);
   const imgElementRef = useRef<HTMLImageElement | null>(null);
   const errorButtonHandler = () => {
@@ -14,6 +17,10 @@ const ErrorPage = () => {
     }
   };
 
+  const errorButtonHandlerTemp = () => {
+    navigate('/');
+  };
+
   return (
 
     <div className="error">
@@ -21,7 +28,7 @@ const ErrorPage = () => {
       <div className="error__wrapper" ref={divElementRef}>
         <button
           className="error__button"
-          onClick={errorButtonHandler}
+          onClick={errorButtonHandlerTemp}
         >
           Back to Characters page!
         </button>
