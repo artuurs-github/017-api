@@ -6,8 +6,8 @@ import { Character } from '../../models/CharacterModel';
 import './CharactersPage.scss';
 
 const CharactersPage = () => {
-  const buttonPreviousRef = useRef <HTMLButtonElement | null>(null);
-  const buttonNextRef = useRef <HTMLButtonElement | null>(null);
+  const buttonPreviousRef = useRef<HTMLButtonElement | null>(null);
+  const buttonNextRef = useRef<HTMLButtonElement | null>(null);
 
   const [visibleCharacters, setVisibleCharacters] = useState<Character[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -77,7 +77,7 @@ const CharactersPage = () => {
             setNameFilter(event.target.value);
             setCurrentPage(1);
           }}
-          // onChange={(event) => { setSearchParams({ name: event.target.value }); }}
+        // onChange={(event) => { setSearchParams({ name: event.target.value }); }}
         />
       </div>
 

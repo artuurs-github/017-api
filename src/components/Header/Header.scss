@@ -13,3 +13,11 @@
     text-decoration: none;
     color: #40b6cb;
 }
+
+@media screen and (max-width: 480px) {
+    .navigation {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+}
