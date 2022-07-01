@@ -3,15 +3,17 @@ import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { Location } from '../../models/LocationModel';
 import './LocationsPage.scss';
+import Loader from '../../components/Loader/Loader';
 
 const LocationsPage = () => {
-  const buttonPreviousRef = useRef <HTMLButtonElement | null>(null);
-  const buttonNextRef = useRef <HTMLButtonElement | null>(null);
+  const buttonPreviousRef = useRef<HTMLButtonElement | null>(null);
+  const buttonNextRef = useRef<HTMLButtonElement | null>(null);
 
   const [visibleLocations, setVisibleLocations] = useState<Location[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams('');
+  const [loading, setLoading] = useState(false);
 
   const handlePagePrevious = () => {
     if (currentPage === 1) {
@@ -27,6 +29,7 @@ const LocationsPage = () => {
 
   const getLocations = async () => {
     try {
+      setLoading(true);
       const response = await axios
         .get(`https://rickandmortyapi.com/api/location?page=${currentPage}&${searchParams}`);
       setVisibleLocations(response.data.results);
@@ -34,6 +37,7 @@ const LocationsPage = () => {
     } catch (error) {
       console.log('ERROR!');
     } finally {
+      setLoading(false);
       console.log('REQUEST FINALIZED!');
     }
   };
@@ -75,6 +79,13 @@ const LocationsPage = () => {
           }}
         />
       </div>
+
+      {loading
+        && (
+          <div>
+            <Loader />
+          </div>
+        )}
 
       {visibleLocations?.length === 0
         ? (

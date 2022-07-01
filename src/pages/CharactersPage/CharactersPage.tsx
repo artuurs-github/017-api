@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Character } from '../../models/CharacterModel';
-// import styles from './CharactersPage.module.scss';
 import './CharactersPage.scss';
+import Loader from '../../components/Loader/Loader';
 
 const CharactersPage = () => {
   const buttonPreviousRef = useRef<HTMLButtonElement | null>(null);
@@ -14,6 +14,7 @@ const CharactersPage = () => {
   const [totalPages, setTotalPages] = useState<string>();
   const [nameFilter, setNameFilter] = useState('');
   const [searchParams, setSearchParams] = useSearchParams('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const CharactersPage = () => {
   const getCharacters = async () => {
     const nameParams = nameFilter === '' ? '' : `&name=${nameFilter}`;
     try {
+      setLoading(true);
       const response = await axios
         .get(`https://rickandmortyapi.com/api/character?page=${currentPage}&${searchParams}${nameParams}`);
       setVisibleCharacters(response.data.results);
@@ -40,6 +42,7 @@ const CharactersPage = () => {
       console.log('ERROR!');
     } finally {
       console.log('REQUEST FINALIZED!');
+      setLoading(false);
     }
   };
 
@@ -122,6 +125,13 @@ const CharactersPage = () => {
 
         </div>
       </div>
+
+      {loading
+        && (
+          <div>
+            <Loader />
+          </div>
+        )}
 
       {visibleCharacters?.length === 0
         ? (

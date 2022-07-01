@@ -4,15 +4,17 @@ import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { Episode } from '../../models/EpisodeModel';
 import './EpisodesPage.scss';
+import Loader from '../../components/Loader/Loader';
 
 const EpisodesPage = () => {
-  const buttonPreviousRef = useRef <HTMLButtonElement | null>(null);
-  const buttonNextRef = useRef <HTMLButtonElement | null>(null);
+  const buttonPreviousRef = useRef<HTMLButtonElement | null>(null);
+  const buttonNextRef = useRef<HTMLButtonElement | null>(null);
 
   const [visibleEpisodes, setVisibleEpisodes] = useState<Episode[]>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<string>('');
   const [searchParams, setSearchParams] = useSearchParams('');
+  const [loading, setLoading] = useState(false);
 
   const handlePagePrevious = () => {
     if (currentPage === 1) {
@@ -28,6 +30,7 @@ const EpisodesPage = () => {
 
   const getEpisodes = async () => {
     try {
+      setLoading(true);
       const response = await axios
         .get(`https://rickandmortyapi.com/api/episode?page=${currentPage}&${searchParams}`);
       setVisibleEpisodes(response.data.results);
@@ -35,6 +38,7 @@ const EpisodesPage = () => {
     } catch (error) {
       console.log('ERROR!');
     } finally {
+      setLoading(false);
       console.log('REQUEST FINALIZED!');
     }
   };
@@ -76,6 +80,13 @@ const EpisodesPage = () => {
           }}
         />
       </div>
+
+      {loading
+        && (
+          <div>
+            <Loader />
+          </div>
+        )}
 
       {visibleEpisodes?.length === 0
         ? (

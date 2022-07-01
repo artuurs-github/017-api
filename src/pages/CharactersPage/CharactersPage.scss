@@ -37,7 +37,7 @@
 .options__buttons {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 5px;
 }
 
 .options__count {
@@ -95,7 +95,7 @@
     font-size: 18px;
     color: #10aec6;
     
-    padding: 0px 25px;
+    padding: 0px 15px;
     background: #FFFFFF;
     border: 3px solid #10aec6;
     border-radius: 15px;
@@ -155,11 +155,4 @@
     color: lightgray;
     border: 3px solid lightgray;
     pointer-events: none;
-}
-
-@media screen and (max-width: 480px) {
-    .options__buttons {
-        display: flex;
-        gap: 5px;
-    }
 }

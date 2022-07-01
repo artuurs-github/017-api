@@ -5,20 +5,20 @@ export type Character = {
   species: string,
   type: string,
   gender: string,
-  origin: Origin,
-  location: Location,
+  origin: CharacterOrigin,
+  location: CharacterLocation,
   image: string,
   episode: string[]
   url: string,
   created: string,
 }
 
-export type Origin = {
+export type CharacterOrigin = {
   name: string,
   url: string,
 }
 
-export type Location = {
+export type CharacterLocation = {
   name: string,
   url: string,
 }

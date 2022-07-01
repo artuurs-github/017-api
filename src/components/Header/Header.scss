@@ -14,10 +14,12 @@
     color: #40b6cb;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
     .navigation {
-        display: flex;
         justify-content: center;
-        gap: 10px;
+    }
+
+    .link {
+        font-size: 18px;
     }
 }

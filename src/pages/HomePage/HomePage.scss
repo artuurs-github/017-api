@@ -2,18 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
+    gap: 25px;
 }
 
 .home__logo {
     max-width: 700px;
-}
-
-.home__h1 {
-    font-family: "get_schwifty";
-    font-size: 72px;
-    color: #40b6cb;
-    text-shadow: 1px 0px 0px #000000, -1px 0px 0px #000000, 0px 1px 0px #000000, 0px -1px 0px #000000, 0px -1px 0px #000000;
+    height: auto;
 }
 
 .home__h3 {
@@ -66,10 +60,16 @@
     }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1200px) {
     .home__buttons {
         display: flex;
         flex-direction: column;
         gap: 25px;
     }
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .home__logo {
+        max-width: 350px;
+    }
+}

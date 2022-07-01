@@ -13,19 +13,7 @@ code {
 }
 
 @font-face {
-  font-family: "Virgil";
-  src: local("Virgil"),
-  url("./fonts/Virgil.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "get_schwifty";
-  src: local("get_schwifty"),
-  url("./fonts/get_schwifty.ttf") format("truetype");
-}
-
-@font-face {
   font-family: "CoveredByYourGrace-Regular";
   src: local("CoveredByYourGrace-Regular"),
-  url("./fonts/CoveredByYourGrace-Regular.ttf") format("truetype");
+  url("./assets/fonts/CoveredByYourGrace-Regular.ttf") format("truetype");
 }

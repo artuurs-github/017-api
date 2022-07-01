@@ -32,48 +32,48 @@ const CharacterPage = () => {
   return (
 
     <div>
-      {character
-      && (
-        <div className="character">
-          <img className="character__image" src={character.image} alt="character" />
-          <div>
-            Name:
-            {' '}
-            {character.name}
-          </div>
-          <div>
-            Status:
-            {' '}
-            {character.status}
-          </div>
-          <div>
-            Species:
-            {' '}
-            {character.species}
-          </div>
-          <div>
-            Gender:
-            {' '}
-            {character.gender}
-          </div>
-          <div>
-            Origin:
-            {' '}
-            {character.origin.name}
-          </div>
-          <div>
-            Location:
-            {' '}
-            {character.location.name}
-          </div>
-        </div>
-      )}
       {loading
-      && (
-      <div>
-        <Loader />
-      </div>
-      )}
+        && (
+          <div>
+            <Loader />
+          </div>
+        )}
+      {character
+        && (
+          <div className="character">
+            <img className="character__image" src={character.image} alt="character" />
+            <div>
+              Name:
+              {' '}
+              {character.name}
+            </div>
+            <div>
+              Status:
+              {' '}
+              {character.status}
+            </div>
+            <div>
+              Species:
+              {' '}
+              {character.species}
+            </div>
+            <div>
+              Gender:
+              {' '}
+              {character.gender}
+            </div>
+            <div>
+              Origin:
+              {' '}
+              {character.origin.name}
+            </div>
+            <div>
+              Location:
+              {' '}
+              {character.location.name}
+            </div>
+          </div>
+        )}
     </div>
 
   );

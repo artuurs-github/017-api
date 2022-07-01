@@ -1,6 +1,6 @@
 import './App.scss';
 import {
-  BrowserRouter as Router, Navigate, NavLink, Route, Routes,
+  BrowserRouter as Router, Navigate, Route, Routes,
 } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
 import CharacterPage from './pages/CharacterPage/CharacterPage';
@@ -20,9 +20,9 @@ const App = () => (
         <Route path="/characters/:id" element={<CharacterPage />} />
         <Route path="/episodes" element={<EpisodesPage />} />
         <Route path="/locations" element={<LocationsPage />} />
-        {/* <Route path="/404" element={<ErrorPage />} /> */}
-        <Route path="/404" element={<Navigate to="/" />} />
-        <Route path="*" element={<Navigate to="/" />} />
+
+        <Route path="/404" element={<ErrorPage />} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
     </Router>
   </div>
