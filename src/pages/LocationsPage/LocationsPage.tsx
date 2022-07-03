@@ -53,7 +53,7 @@ const LocationsPage = () => {
       />
 
       {loading && (
-        <div>
+        <div className="app-flex-justify-center">
           <Loader />
         </div>
       )}
