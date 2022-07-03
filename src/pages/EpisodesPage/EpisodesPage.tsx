@@ -1,135 +1,120 @@
 /* eslint-disable camelcase */
-import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
 import { Episode } from '../../models/EpisodeModel';
-import './EpisodesPage.scss';
+import disableButton from '../../functions/disableButton';
+
+import SearchInput from '../../components/SearchInput/SearchInput';
 import Loader from '../../components/Loader/Loader';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
+import Card from '../../components/Card/Card';
 
 const EpisodesPage = () => {
   const buttonPreviousRef = useRef<HTMLButtonElement | null>(null);
   const buttonNextRef = useRef<HTMLButtonElement | null>(null);
 
   const [visibleEpisodes, setVisibleEpisodes] = useState<Episode[]>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState('');
   const [searchParams, setSearchParams] = useSearchParams('');
   const [loading, setLoading] = useState(false);
-
-  const handlePagePrevious = () => {
-    if (currentPage === 1) {
-      setCurrentPage(1);
-    } else {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handlePageNext = () => {
-    setCurrentPage(currentPage + 1);
-  };
+  const [fetchError, setFetchError] = useState(false);
 
   const getEpisodes = async () => {
     try {
       setLoading(true);
+      setFetchError(false);
       const response = await axios
         .get(`https://rickandmortyapi.com/api/episode?page=${currentPage}&${searchParams}`);
       setVisibleEpisodes(response.data.results);
       setTotalPages(response.data.info.pages);
     } catch (error) {
-      console.log('ERROR!');
+      setFetchError(true);
     } finally {
       setLoading(false);
-      console.log('REQUEST FINALIZED!');
     }
   };
 
   useEffect(() => {
     getEpisodes();
-  }, [searchParams, currentPage]);
-
-  useEffect(() => {
-    if (buttonPreviousRef.current) {
-      const buttonPrevious = buttonPreviousRef.current;
-      if (currentPage === 1) {
-        buttonPrevious.classList.add('off');
-      } else {
-        buttonPrevious.classList.remove('off');
-      }
-    }
-
-    if (buttonNextRef.current) {
-      const buttonNext = buttonNextRef.current;
-      if (currentPage === Number(totalPages)) {
-        buttonNext.classList.add('off');
-      } else {
-        buttonNext.classList.remove('off');
-      }
-    }
-  }, [currentPage]);
+    disableButton(buttonPreviousRef, buttonNextRef, currentPage, totalPages);
+  }, [currentPage, searchParams]);
 
   return (
-    <div className="episodes">
-      <div className="input-container">
-        <input
-          className="episodes__input"
-          type="text"
-          placeholder="Search episode by name..."
-          onChange={(event) => {
-            setSearchParams({ name: event.target.value });
-            setCurrentPage(1);
-          }}
-        />
-      </div>
+    <div className="app-page-container">
 
-      {loading
-        && (
-          <div>
-            <Loader />
-          </div>
-        )}
+      <SearchInput
+        placeholder="Search episode by name..."
+        handleChange={(event) => {
+          setSearchParams({ name: event.target.value });
+          setCurrentPage(1);
+        }}
+      />
+
+      {loading && (
+        <div className="app-flex-justify-center">
+          <Loader />
+        </div>
+      )}
+
+      {fetchError && (
+        <ErrorMessage
+          message="Sorry, something went wrong! Refresh the page or try again later!"
+        />
+      )}
 
       {visibleEpisodes?.length === 0
-        ? (
-          <div className="options__count"> Nothing found! </div>
-        )
+        ? (<ErrorMessage message="Nothing found!" />)
         : (
-
-          <div className="episodes-container">
+          <div className="app-flex-wrap-container">
             {visibleEpisodes && visibleEpisodes.map(({
               id, name, episode, air_date,
             }) => (
-              <div className="episode-card" key={id}>
-                <div className="episode-card__episode">
+              <Card key={id}>
+                <img
+                  className="card__image"
+                  src={`https://picsum.photos/150?random=${id}`}
+                  alt={name}
+                />
+                <p className="card__info-18px">
                   {episode}
-                </div>
-                <div className="episode-card__name">
+                </p>
+                <p className="card__info-24px">
                   {name}
-                </div>
-                <div className="episode-card__air-date">
+                </p>
+                <p className="card__info-18px">
                   Air date:
                   <br />
                   {air_date}
-                </div>
-              </div>
+                </p>
+              </Card>
             ))}
           </div>
         )}
-      <div className="load-more">
+
+      <div className="app-pagination-container">
         <button
-          className="load-more__button"
-          onClick={() => handlePagePrevious()}
+          className="app-pagination__button"
+          onClick={() => setCurrentPage(currentPage - 1)}
           ref={buttonPreviousRef}
         >
           {'<'}
         </button>
-        <div className="load-more__page">{currentPage}</div>
+
+        <div className="app-pagination__page">
+          {currentPage}
+        </div>
+
         <button
-          className="load-more__button"
-          onClick={() => handlePageNext()}
+          className="app-pagination__button"
+          onClick={() => setCurrentPage(currentPage + 1)}
           ref={buttonNextRef}
         >
           {'>'}
         </button>
+
       </div>
     </div>
   );

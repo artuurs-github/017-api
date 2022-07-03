@@ -11,8 +11,8 @@ const HomePage = () => {
       <h3 className="home__h3"> DATABASE </h3>
       <div className="home__buttons">
         <button className="home__button" onClick={() => navigate('/characters')}> Search characters </button>
-        <button className="home__button" onClick={() => navigate('/episodes')}> Search Episodes </button>
-        <button className="home__button" onClick={() => navigate('/locations')}> Search Locations </button>
+        <button className="home__button" onClick={() => navigate('/episodes')}> Search episodes </button>
+        <button className="home__button" onClick={() => navigate('/locations')}> Search locations </button>
       </div>
     </div>
   );

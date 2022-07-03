@@ -3,3 +3,89 @@
   flex-direction: column;
   gap: 50px;
 }
+
+.app-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+.app-flex-wrap-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.app-flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.app-button {
+  font-size: 18px;
+  color: #10aec6;
+    padding: 0px 15px;
+  background: #FFFFFF;
+  border: 3px solid #10aec6;
+  border-radius: 15px;
+  transition: all 0.25s;
+
+  &:hover {
+      cursor: pointer;
+      opacity: 0.75;
+      transform: scale(1.05);
+  }
+
+  &:active {
+      transform: scale(0.95);
+  }
+}
+
+// ========== PAGE-CONTAINER ========== //
+
+
+
+// ========== PAGINATION ========== //
+
+.app-pagination-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.app-pagination__button {
+  font-size: 36px;
+  color: #40b6cb;
+  padding: 5px 25px;
+  background: #FFFFFF;
+  border: 3px solid #40b6cb;
+  border-radius: 15px;
+  transition: all 0.25s;
+
+  &:hover {
+      cursor: pointer;
+      opacity: 0.75;
+      transform: scale(1.05);
+  }
+
+  &:active {
+      transform: scale(0.95);
+  }
+}
+
+.app-pagination__page {
+  font-size: 36px;
+  color: #40b6cb;
+  padding: 5px 25px;
+  background: #FFFFFF;
+  border: 3px solid #40b6cb;;
+  border-radius: 15px;
+}
+
+.app-button-disabled {
+  color: lightgray;
+  border: 3px solid lightgray;
+  pointer-events: none;
+}
