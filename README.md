@@ -2,14 +2,12 @@
 
 ## Project link
 ```
-https://artuurs-github.github.io/react-gh-pages/
+artuurs-github-react-rick-and-morty.netlify.app
 ```
 
 ## Project description
-This is a React.js project — a single-page application, Rick & Morty API (https://rickandmortyapi.com/) based database.
+This is a React.js project — a single-page application that is using the Rick & Morty API (https://rickandmortyapi.com/).
 
-<br/>
-<br/>
 <br/>
 <br/>
 <br/>
