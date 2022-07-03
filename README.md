@@ -1,4 +1,4 @@
-# react-gh-pages
+# react-rick-and-morty
 
 ## Project link
 ```
