@@ -6,7 +6,9 @@ artuurs-github-react-rick-and-morty.netlify.app
 ```
 
 ## Project description
-This is a single-page application (made in React.js) that uses the Rick & Morty API (https://rickandmortyapi.com/).
+This project is a single-page application that uses the Rick & Morty API (https://rickandmortyapi.com/).
+
+Made with React.js.
 
 <br/>
 <br/>
