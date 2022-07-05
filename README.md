@@ -10,10 +10,6 @@ This project is a single-page application that uses the Rick & Morty API (https:
 
 Made with React.js.
 
-<br/>
-<br/>
-<br/>
-
 ## Additional notes
 
 In the project directory, you can run:
